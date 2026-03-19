@@ -6,6 +6,7 @@ import {
   ScrollView,
   useWindowDimensions,
   Platform,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
@@ -149,9 +150,11 @@ function AllergenChip({
 function WelcomeStep({ onNext }: { onNext: () => void }) {
   return (
     <View className="flex-1 items-center justify-center px-8">
-      <View className="mb-6">
-        <LeafIcon />
-      </View>
+      <Image
+        source={require("../assets/images/icon.png")}
+        style={{ width: 100, height: 100, borderRadius: 22 }}
+        className="mb-6"
+      />
       <Text className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-3">
         Allergy Tracker
       </Text>
