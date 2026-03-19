@@ -12,7 +12,16 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "channel": "production"
+    }
+  },
+  "update": {
+    "production": {
+      "channel": "production"
+    },
+    "preview": {
+      "channel": "preview"
     }
   },
   "submit": {
