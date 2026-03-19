@@ -47,6 +47,22 @@ export async function requestLocationPermissions(): Promise<{
   foreground: boolean;
   background: boolean;
 }> {
+  const { status: currentForeground } =
+    await Location.getForegroundPermissionsAsync();
+
+  // Already granted — check background and return without prompting
+  if (currentForeground === "granted") {
+    const { status: currentBackground } =
+      await Location.getBackgroundPermissionsAsync();
+    return { foreground: true, background: currentBackground === "granted" };
+  }
+
+  // Already denied — do not request again (on Android this opens Settings)
+  if (currentForeground === "denied") {
+    return { foreground: false, background: false };
+  }
+
+  // Undetermined — safe to show the system dialog
   const { status: foregroundStatus } =
     await Location.requestForegroundPermissionsAsync();
   const foregroundGranted = foregroundStatus === "granted";
