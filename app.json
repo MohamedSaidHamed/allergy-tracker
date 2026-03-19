@@ -16,8 +16,10 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Allergy Tracker uses your location to show local pollen levels.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allergy Tracker uses your location in the background to send pollen spike alerts."
-      }
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allergy Tracker uses your location in the background to send pollen spike alerts.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.mo.seasonal.allergy.tracker"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,8 +34,11 @@
         "ACCESS_FINE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "FOREGROUND_SERVICE",
-        "FOREGROUND_SERVICE_LOCATION"
-      ]
+        "FOREGROUND_SERVICE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.mo.seasonal.allergy.tracker"
     },
     "web": {
       "bundler": "metro",
@@ -69,7 +74,11 @@
     },
     "extra": {
       "GOOGLE_POLLEN_API_KEY": "",
-      "OPEN_WEATHER_API_KEY": ""
+      "OPEN_WEATHER_API_KEY": "",
+      "router": {},
+      "eas": {
+        "projectId": "38f6ba06-ec68-4b2c-ba0e-200159cc4844"
+      }
     }
   }
 }
