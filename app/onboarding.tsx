@@ -6,6 +6,7 @@ import {
   ScrollView,
   useWindowDimensions,
   useColorScheme,
+  Linking,
   Platform,
   Image,
 } from "react-native";
@@ -147,6 +148,11 @@ function AllergenChip({
   );
 }
 
+// ── Legal URLs ─────────────────────────────────────────────────────────────
+
+const PRIVACY_URL = "https://mohamedsaidhamed.github.io/allergy-tracker/privacy-policy.html";
+const TERMS_URL   = "https://mohamedsaidhamed.github.io/allergy-tracker/terms.html";
+
 // ── Screens ────────────────────────────────────────────────────────────────
 
 function WelcomeStep({ onNext }: { onNext: () => void }) {
@@ -195,6 +201,22 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
       >
         <Text className="text-white text-center font-bold text-base">Get Started</Text>
       </TouchableOpacity>
+      <Text className="text-xs text-center mt-4" style={{ color: theme.subtext }}>
+        By continuing you agree to our{" "}
+        <Text
+          style={{ color: theme.link }}
+          onPress={() => Linking.openURL(TERMS_URL)}
+        >
+          Terms &amp; Conditions
+        </Text>
+        {" "}and{" "}
+        <Text
+          style={{ color: theme.link }}
+          onPress={() => Linking.openURL(PRIVACY_URL)}
+        >
+          Privacy Policy
+        </Text>
+      </Text>
     </View>
   );
 }

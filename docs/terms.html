@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms &amp; Conditions — Allergy Tracker</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f9fafb;
+      --border: #e5e7eb;
+      --text: #111827;
+      --muted: #6b7280;
+      --accent: #22c55e;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111827;
+        --surface: #1f2937;
+        --border: #374151;
+        --text: #f9fafb;
+        --muted: #9ca3af;
+        --accent: #4ade80;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 0 16px 60px;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 16px;
+      margin: 0 -16px 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo { font-size: 28px; }
+    .app-name { font-size: 18px; font-weight: 700; color: var(--text); }
+    .app-sub { font-size: 13px; color: var(--muted); }
+    h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .updated { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 32px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    p { margin-bottom: 12px; color: var(--text); font-size: 15px; }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 6px; font-size: 15px; color: var(--text); }
+    .highlight {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 15px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    max-width-wrap { max-width: 680px; margin: 0 auto; display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🌿</div>
+    <div>
+      <div class="app-name">Allergy Tracker</div>
+      <div class="app-sub">Terms &amp; Conditions</div>
+    </div>
+  </header>
+
+  <max-width-wrap>
+    <h1>Terms &amp; Conditions</h1>
+    <p class="updated">Last updated: March 2026</p>
+
+    <div class="highlight">
+      By using Allergy Tracker, you agree to these terms. Please read them carefully.
+    </div>
+
+    <h2>1. About the App</h2>
+    <p>Allergy Tracker is a free personal wellness application that displays local pollen forecasts, weather conditions, and allows you to log allergy symptoms for your own reference. It is provided free of charge for personal, non-commercial use.</p>
+
+    <h2>2. Not Medical Advice</h2>
+    <p>Allergy Tracker is a wellness and informational tool only. Nothing in the app constitutes medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional regarding any medical conditions, allergies, or medications.</p>
+    <ul>
+      <li>Pollen data is sourced from third-party weather and environmental APIs and may not be accurate for your exact location.</li>
+      <li>Do not make medical decisions based solely on information provided by this app.</li>
+    </ul>
+
+    <h2>3. Acceptable Use</h2>
+    <p>You agree to use Allergy Tracker only for its intended personal wellness purpose. You must not:</p>
+    <ul>
+      <li>Reverse-engineer, decompile, or attempt to extract the source code of the app</li>
+      <li>Use the app in any way that violates applicable laws or regulations</li>
+      <li>Attempt to interfere with or disrupt the app or its connected services</li>
+    </ul>
+
+    <h2>4. Third-Party Services</h2>
+    <p>The app relies on the following third-party services to function. Their availability is outside our control:</p>
+    <ul>
+      <li>Open-Meteo — pollen and weather data</li>
+      <li>OpenStreetMap Nominatim — location search</li>
+      <li>CartoDB / CARTO — map tiles</li>
+    </ul>
+    <p>We are not responsible for the accuracy, availability, or content of these services.</p>
+
+    <h2>5. Data & Privacy</h2>
+    <p>Your use of the app is also governed by our <a href="./privacy-policy.html">Privacy Policy</a>, which is incorporated into these terms by reference.</p>
+
+    <h2>6. Disclaimer of Warranties</h2>
+    <p>Allergy Tracker is provided "as is" without warranties of any kind, express or implied. We do not warrant that:</p>
+    <ul>
+      <li>The app will be available at all times or free of errors</li>
+      <li>Pollen or weather data will be accurate or up to date</li>
+      <li>The app will meet your specific requirements</li>
+    </ul>
+
+    <h2>7. Limitation of Liability</h2>
+    <p>To the fullest extent permitted by law, we shall not be liable for any indirect, incidental, or consequential damages arising from your use of, or inability to use, the app.</p>
+
+    <h2>8. Changes to These Terms</h2>
+    <p>We may update these terms from time to time. The latest version will always be available at this URL. Continued use of the app after changes are posted constitutes your acceptance of the updated terms.</p>
+
+    <h2>9. Contact</h2>
+    <p>If you have any questions about these Terms, please open an issue on our <a href="https://github.com/MohamedSaidHamed/allergy-tracker" target="_blank">GitHub repository</a>.</p>
+  </max-width-wrap>
+</body>
+</html>
