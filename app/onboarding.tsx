@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   ScrollView,
   useWindowDimensions,
+  useColorScheme,
   Platform,
   Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import Colors from "@/constants/Colors";
 import Svg, { Path, Circle } from "react-native-svg";
 
 import { requestLocationPermissions } from "@/services/locationService";
@@ -148,14 +150,16 @@ function AllergenChip({
 // ── Screens ────────────────────────────────────────────────────────────────
 
 function WelcomeStep({ onNext }: { onNext: () => void }) {
+  const colorScheme = useColorScheme() ?? "light";
+  const theme = Colors[colorScheme];
   return (
-    <View className="flex-1 items-center justify-center px-8">
+    <View className="flex-1 items-center justify-center px-8" style={{ backgroundColor: theme.card }}>
       <Image
         source={require("../assets/images/icon.png")}
         style={{ width: 100, height: 100, borderRadius: 22 }}
         className="mb-6"
       />
-      <Text className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-3">
+      <Text className="text-3xl font-bold text-center mb-3" style={{ color: theme.text }}>
         Allergy Tracker
       </Text>
       <Text className="text-base text-gray-500 dark:text-gray-400 text-center leading-6 mb-10">

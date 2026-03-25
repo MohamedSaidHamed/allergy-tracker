@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "seasonal-allergy-tracker",
+    "name": "Allergy Tracker",
     "slug": "seasonal-allergy-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,7 +10,12 @@
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "dark": {
+        "image": "./assets/images/splash-icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#111827"
+      }
     },
     "ios": {
       "supportsTablet": true,
