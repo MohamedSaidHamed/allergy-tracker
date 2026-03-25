@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import * as Location from "expo-location";
 import {
   requestLocationPermissions,
   getCurrentLocation,
@@ -83,13 +84,25 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
       const stored = await getStoredLocation();
       if (stored) setLocationState(stored);
 
+      // Passive check only — never prompt on mount
+      const { status: fgStatus } = await Location.getForegroundPermissionsAsync();
+      const foregroundGranted = fgStatus === "granted";
+
+      if (!foregroundGranted) {
+        // Permission not yet granted — wait for the user to allow it in onboarding
+        setPermissions({ foreground: false, background: false });
+        setLoading(false);
+        return;
+      }
+
+      // Returning user with permission already granted — load silently
       const source = await getLocationSource();
       if (source === "manual") {
+        const { status: bgStatus } = await Location.getBackgroundPermissionsAsync();
+        setPermissions({ foreground: true, background: bgStatus === "granted" });
         setLoading(false);
-        const perms = await requestLocationPermissions();
-        setPermissions(perms);
       } else {
-        refresh();
+        refresh(); // Safe: foreground already granted, no dialog will appear
       }
     }
     init();
