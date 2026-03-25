@@ -5,6 +5,7 @@ import { useLocation } from "@/hooks/useLocation";
 import { usePollenData } from "@/hooks/usePollenData";
 import PollenMap from "@/components/PollenMap";
 import { AllergenLevel } from "@/services/types";
+import { useThemeColor } from "@/components/Themed";
 
 const LEVEL_ORDER: Record<AllergenLevel, number> = {
   none: 0, low: 1, medium: 2, high: 3, extreme: 4,
@@ -68,6 +69,7 @@ export default function MapScreen() {
   const { location, loading: locationLoading, refresh: refreshLocation } = useLocation();
   const { data: pollenData, loading: pollenLoading } = usePollenData(location);
   const insets = useSafeAreaInsets();
+  const cardBg = useThemeColor({}, "card");
 
   const allergens = pollenData?.allergens ?? [];
   const topLevel = overallLevel(allergens.map((a) => a.level));
@@ -104,7 +106,7 @@ export default function MapScreen() {
             {
               marginHorizontal: 16,
               marginTop: 8,
-              backgroundColor: "white",
+              backgroundColor: cardBg,
               borderRadius: 16,
               paddingHorizontal: 16,
               paddingVertical: 12,
@@ -170,7 +172,7 @@ export default function MapScreen() {
             position: "absolute",
             bottom: overlayBottom,
             left: 20,
-            backgroundColor: "white",
+            backgroundColor: cardBg,
             borderRadius: 12,
             paddingHorizontal: 12,
             paddingVertical: 8,
