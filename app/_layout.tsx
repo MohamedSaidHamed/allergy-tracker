@@ -9,7 +9,6 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 import { registerBackgroundPollenCheck } from '@/services/notificationService';
 import { isOnboardingComplete } from '@/services/onboardingService';
-import { LocationProvider } from '@/contexts/LocationContext';
 
 export {
   ErrorBoundary,
@@ -58,13 +57,11 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <LocationProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="onboarding" options={{ headerShown: false, gestureEnabled: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
-      </LocationProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="onboarding" options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      </Stack>
     </ThemeProvider>
   );
 }
