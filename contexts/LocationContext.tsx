@@ -4,8 +4,6 @@ import {
   requestLocationPermissions,
   getCurrentLocation,
   reverseGeocode,
-  startBackgroundLocationUpdates,
-  stopBackgroundLocationUpdates,
   storeLocation,
   getStoredLocation,
   storeLocationSource,
@@ -15,7 +13,6 @@ import {
 
 export type LocationPermissions = {
   foreground: boolean;
-  background: boolean;
 };
 
 type LocationContextValue = {
@@ -58,10 +55,6 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
       await storeLocation(newLocation);
       await storeLocationSource("gps");
 
-      if (perms.background) {
-        await startBackgroundLocationUpdates();
-      }
-
       setLocationState(newLocation);
       setLoading(false);
     } catch {
@@ -75,7 +68,6 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
   const setLocation = useCallback((loc: SavedLocation) => {
     storeLocation(loc).catch(console.error);
     storeLocationSource("manual").catch(console.error);
-    stopBackgroundLocationUpdates().catch(console.error);
     setLocationState(loc);
   }, []);
 
@@ -89,8 +81,7 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
       const foregroundGranted = fgStatus === "granted";
 
       if (!foregroundGranted) {
-        // Permission not yet granted — wait for the user to allow it in onboarding
-        setPermissions({ foreground: false, background: false });
+        setPermissions({ foreground: false });
         setLoading(false);
         return;
       }
@@ -98,11 +89,10 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
       // Returning user with permission already granted — load silently
       const source = await getLocationSource();
       if (source === "manual") {
-        const { status: bgStatus } = await Location.getBackgroundPermissionsAsync();
-        setPermissions({ foreground: true, background: bgStatus === "granted" });
+        setPermissions({ foreground: true });
         setLoading(false);
       } else {
-        refresh(); // Safe: foreground already granted, no dialog will appear
+        refresh();
       }
     }
     init();
