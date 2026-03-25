@@ -1,3 +1,5 @@
+// NOTE: card colours are also used as the native splash background in app.json.
+// If you change card here, update "splash.backgroundColor" and "splash.dark.backgroundColor" in app.json too.
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 

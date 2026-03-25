@@ -14,7 +14,7 @@
       "dark": {
         "image": "./assets/images/splash-icon.png",
         "resizeMode": "contain",
-        "backgroundColor": "#111827"
+        "backgroundColor": "#1f2937"
       }
     },
     "ios": {
