@@ -11,7 +11,6 @@ import {
   getLocationSource,
   SavedLocation,
 } from "@/services/locationService";
-import { isOnboardingComplete } from "@/services/onboardingService";
 
 export type LocationPermissions = {
   foreground: boolean;
@@ -83,12 +82,6 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
     async function init() {
       const stored = await getStoredLocation();
       if (stored) setLocationState(stored);
-
-      const onboarded = await isOnboardingComplete();
-      if (!onboarded) {
-        setLoading(false);
-        return;
-      }
 
       const source = await getLocationSource();
       if (source === "manual") {

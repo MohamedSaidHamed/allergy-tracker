@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
+import { LocationProvider } from '@/contexts/LocationContext';
 import Svg, { Path, Circle, Rect, Line } from 'react-native-svg';
 
 import Colors from '@/constants/Colors';
@@ -55,6 +56,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
+    <LocationProvider>
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
@@ -94,5 +96,6 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </LocationProvider>
   );
 }
