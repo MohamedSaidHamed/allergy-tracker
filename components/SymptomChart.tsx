@@ -1,21 +1,22 @@
-import { View, Text, useWindowDimensions } from "react-native";
+import { useState } from "react";
+import { View, Text, useColorScheme } from "react-native";
 import { LineChart } from "react-native-chart-kit";
-import { SymptomLog, formatDisplayDate, pastDateString, todayDateString } from "@/services/symptomService";
+import { SymptomLog, formatDisplayDate, pastDateString } from "@/services/symptomService";
+import Colors from "@/constants/Colors";
 
 type Props = { weekLogs: SymptomLog[] };
 
 export default function SymptomChart({ weekLogs }: Props) {
-  const { width } = useWindowDimensions();
-  const chartWidth = width - 48; // 24px padding each side
+  const [chartWidth, setChartWidth] = useState(0);
+  const colorScheme = useColorScheme() ?? "light";
+  const theme = Colors[colorScheme];
+  const bgColor = theme.card;
 
   // Build a 7-day grid (today and past 6 days)
   const days = Array.from({ length: 7 }, (_, i) => pastDateString(6 - i));
   const logMap = new Map(weekLogs.map((l) => [l.date, l]));
 
-  const labels = days.map((d) => {
-    const parts = formatDisplayDate(d).split(" ");
-    return parts[1]; // just the day number
-  });
+  const labels = days.map((d) => formatDisplayDate(d).split(" ")[0]); // Mon, Tue, etc.
 
   const data = days.map((d) => logMap.get(d)?.severity ?? 0);
   const hasAnyData = data.some((v) => v > 0);
@@ -40,41 +41,38 @@ export default function SymptomChart({ weekLogs }: Props) {
       accessible
       accessibilityLabel={a11yLabel}
       accessibilityRole="image"
+      onLayout={(e) => setChartWidth(e.nativeEvent.layout.width)}
     >
-      <LineChart
-        data={{
-          labels,
-          datasets: [{ data, strokeWidth: 2 }],
-        }}
-        width={chartWidth}
-        height={160}
-        yAxisSuffix=""
-        yAxisInterval={1}
-        fromZero
-        chartConfig={{
-          backgroundGradientFrom: "#f0fdf4",
-          backgroundGradientTo: "#f0fdf4",
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(34, 197, 94, ${opacity})`,
-          labelColor: () => "#9ca3af",
-          propsForDots: {
-            r: "4",
-            strokeWidth: "2",
-            stroke: "#16a34a",
-          },
-        }}
-        bezier
-        style={{ borderRadius: 12 }}
-        withInnerLines={false}
-        withOuterLines={false}
-      />
-      <View className="flex-row justify-between px-2 mt-1">
-        {days.map((d) => (
-          <Text key={d} className="text-xs text-gray-400">
-            {formatDisplayDate(d).split(" ")[0]}
-          </Text>
-        ))}
-      </View>
+      {chartWidth > 0 && (
+        <LineChart
+          data={{
+            labels,
+            datasets: [{ data, strokeWidth: 2 }],
+          }}
+          width={chartWidth}
+          height={160}
+          yAxisSuffix=""
+          yAxisInterval={1}
+          fromZero
+          chartConfig={{
+            backgroundGradientFrom: bgColor,
+            backgroundGradientTo: bgColor,
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(34, 197, 94, ${opacity})`,
+            labelColor: () => theme.subtext,
+            paddingRight: 16,
+            propsForDots: {
+              r: "4",
+              strokeWidth: "2",
+              stroke: "#16a34a",
+            },
+          }}
+          bezier
+          style={{ borderRadius: 12 }}
+          withInnerLines={false}
+          withOuterLines={false}
+        />
+      )}
     </View>
   );
 }
