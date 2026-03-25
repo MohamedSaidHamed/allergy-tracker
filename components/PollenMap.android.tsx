@@ -3,6 +3,7 @@ import { useColorScheme } from "react-native";
 import { WebView } from "react-native-webview";
 import { SavedLocation } from "@/services/locationService";
 import { AllergenData, AllergenLevel } from "@/services/types";
+import Colors from "@/constants/Colors";
 
 const LEVEL_ORDER: Record<AllergenLevel, number> = {
   none: 0, low: 1, medium: 2, high: 3, extreme: 4,
@@ -59,8 +60,8 @@ type Props = {
 
 export default function PollenMap({ location, allergens }: Props) {
   const webViewRef = useRef<WebView>(null);
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
+  const colorScheme = useColorScheme() ?? "light";
+  const theme = Colors[colorScheme];
   const level = overallLevel(allergens);
 
   const lat = location.latitude;
@@ -76,14 +77,9 @@ export default function PollenMap({ location, allergens }: Props) {
     ? topAllergens.map((a) => `• ${a.name}: ${LEVEL_LABEL[a.level]}`).join("<br>")
     : "No significant pollen";
 
-  const tileUrl = isDark
+  const tileUrl = colorScheme === "dark"
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
     : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
-
-  const popupBg = isDark ? "#1f2937" : "#ffffff";
-  const popupText = isDark ? "#f9fafb" : "#111827";
-  const popupSubtext = isDark ? "#9ca3af" : "#6b7280";
-  const bodyBg = isDark ? "#111827" : "#ffffff";
 
   const html = `
 <!DOCTYPE html>
@@ -95,20 +91,22 @@ export default function PollenMap({ location, allergens }: Props) {
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body, #map { height: 100%; width: 100%; background: ${bodyBg}; }
-    .leaflet-popup-content-wrapper { background: ${popupBg}; color: ${popupText}; }
-    .leaflet-popup-tip { background: ${popupBg}; }
-    .leaflet-popup-content { font-family: -apple-system, sans-serif; font-size: 13px; color: ${popupText}; }
-    .leaflet-popup-content b { font-size: 14px; color: ${popupText}; }
+    html, body, #map { height: 100%; width: 100%; background: ${theme.background}; }
+    .leaflet-popup-content-wrapper { background: ${theme.card}; color: ${theme.text}; }
+    .leaflet-popup-tip { background: ${theme.card}; }
+    .leaflet-popup-content { font-family: -apple-system, sans-serif; font-size: 13px; color: ${theme.text}; }
+    .leaflet-popup-content b { font-size: 14px; color: ${theme.text}; }
     .popup-level { font-weight: 700; margin: 4px 0; color: ${LEVEL_PIN[level]}; }
-    .popup-allergen { color: ${popupSubtext}; margin-top: 2px; }
+    .popup-allergen { color: ${theme.subtext}; margin-top: 2px; }
   </style>
 </head>
 <body>
   <div id="map"></div>
   <script>
-    var map = L.map('map', { zoomControl: true, attributionControl: true })
+    var map = L.map('map', { zoomControl: false, attributionControl: true })
       .setView([${lat}, ${lng}], 12);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     L.tileLayer('${tileUrl}', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
