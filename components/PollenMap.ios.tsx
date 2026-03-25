@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, useColorScheme } from "react-native";
 import MapView, { Circle, Marker, Callout, PROVIDER_DEFAULT, Region } from "react-native-maps";
 import { SavedLocation } from "@/services/locationService";
 import { AllergenData, AllergenLevel } from "@/services/types";
@@ -64,6 +64,8 @@ type Props = {
 
 export default function PollenMap({ location, allergens }: Props) {
   const mapRef = useRef<MapView>(null);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
   const level = overallLevel(allergens);
 
   const region: Region = {
@@ -97,6 +99,7 @@ export default function PollenMap({ location, allergens }: Props) {
       showsMyLocationButton={false}
       showsCompass
       toolbarEnabled={false}
+      userInterfaceStyle={isDark ? "dark" : "light"}
     >
       {/* Pollen hotspot circle */}
       <Circle
@@ -114,8 +117,8 @@ export default function PollenMap({ location, allergens }: Props) {
         pinColor={LEVEL_PIN[level]}
       >
         <Callout tooltip={false} style={{ width: 180 }}>
-          <View style={{ padding: 8 }}>
-            <Text style={{ fontWeight: "700", fontSize: 13, marginBottom: 4, color: "#111827" }}>
+          <View style={{ padding: 8, backgroundColor: isDark ? "#1f2937" : "#ffffff" }}>
+            <Text style={{ fontWeight: "700", fontSize: 13, marginBottom: 4, color: isDark ? "#f9fafb" : "#111827" }}>
               {locationLabel}
             </Text>
             <Text style={{ fontSize: 12, color: LEVEL_PIN[level], fontWeight: "600", marginBottom: 4 }}>
@@ -123,12 +126,12 @@ export default function PollenMap({ location, allergens }: Props) {
             </Text>
             {topAllergens.length > 0 ? (
               topAllergens.map((a) => (
-                <Text key={a.name} style={{ fontSize: 11, color: "#6b7280", marginTop: 1 }}>
+                <Text key={a.name} style={{ fontSize: 11, color: isDark ? "#9ca3af" : "#6b7280", marginTop: 1 }}>
                   • {a.name}: {LEVEL_LABEL[a.level]}
                 </Text>
               ))
             ) : (
-              <Text style={{ fontSize: 11, color: "#6b7280" }}>No significant pollen</Text>
+              <Text style={{ fontSize: 11, color: isDark ? "#9ca3af" : "#6b7280" }}>No significant pollen</Text>
             )}
           </View>
         </Callout>
