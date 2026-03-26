@@ -8,7 +8,7 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocation } from "@/hooks/useLocation";
 import { usePollenData } from "@/hooks/usePollenData";
 import { useTips } from "@/hooks/useTips";
@@ -105,12 +105,13 @@ export default function DashboardScreen() {
   const allergenLevels = pollenData?.allergens.map((a) => a.level) ?? [];
   const topLevel = overallLevel(allergenLevels);
   const isLoading = locationLoading || pollenLoading;
+  const insets = useSafeAreaInsets();
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-gray-900" edges={["top", "bottom"]}>
       <ScrollView
         className="flex-1"
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: 40 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: insets.bottom + 40 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#3b82f6" />
