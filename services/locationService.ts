@@ -1,8 +1,6 @@
 import * as Location from "expo-location";
-import * as TaskManager from "expo-task-manager";
 import * as SecureStore from "expo-secure-store";
 
-export const BACKGROUND_LOCATION_TASK = "background-location-task";
 const STORED_LOCATION_KEY = "saved_location";
 const LOCATION_SOURCE_KEY = "location_source";
 
@@ -25,61 +23,29 @@ export type SavedLocation = {
   country?: string;
 };
 
-// Register the background task definition (must be at module top-level)
-TaskManager.defineTask(BACKGROUND_LOCATION_TASK, async ({ data, error }) => {
-  if (error) {
-    console.error("[LocationService] Background task error:", error);
-    return;
-  }
-  if (data) {
-    const { locations } = data as { locations: Location.LocationObject[] };
-    if (locations.length > 0) {
-      const latest = locations[locations.length - 1];
-      storeLocation({
-        latitude: latest.coords.latitude,
-        longitude: latest.coords.longitude,
-      }).catch(console.error);
-    }
-  }
-});
-
 export async function requestLocationPermissions(): Promise<{
   foreground: boolean;
-  background: boolean;
 }> {
   const { status: currentForeground } =
     await Location.getForegroundPermissionsAsync();
 
-  // Already granted — check background and return without prompting
   if (currentForeground === "granted") {
-    const { status: currentBackground } =
-      await Location.getBackgroundPermissionsAsync();
-    return { foreground: true, background: currentBackground === "granted" };
+    return { foreground: true };
   }
 
-  // Already denied — do not request again (on Android this opens Settings)
   if (currentForeground === "denied") {
-    return { foreground: false, background: false };
+    return { foreground: false };
   }
 
-  // Undetermined — safe to show the system dialog
   const { status: foregroundStatus } =
     await Location.requestForegroundPermissionsAsync();
-  const foregroundGranted = foregroundStatus === "granted";
 
-  let backgroundGranted = false;
-  if (foregroundGranted) {
-    const { status: backgroundStatus } =
-      await Location.requestBackgroundPermissionsAsync();
-    backgroundGranted = backgroundStatus === "granted";
-  }
-
-  return { foreground: foregroundGranted, background: backgroundGranted };
+  return { foreground: foregroundStatus === "granted" };
 }
 
 export async function getCurrentLocation(): Promise<Location.LocationObject> {
   return Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.Balanced,
+    accuracy: Location.Accuracy.Low,
   });
 }
 
@@ -95,33 +61,6 @@ export async function reverseGeocode(
     region: place.region ?? undefined,
     country: place.country ?? undefined,
   };
-}
-
-export async function startBackgroundLocationUpdates(): Promise<void> {
-  const isRegistered = await TaskManager.isTaskRegisteredAsync(
-    BACKGROUND_LOCATION_TASK
-  );
-  if (!isRegistered) {
-    await Location.startLocationUpdatesAsync(BACKGROUND_LOCATION_TASK, {
-      accuracy: Location.Accuracy.Balanced,
-      timeInterval: 15 * 60 * 1000, // 15 minutes
-      distanceInterval: 1000, // 1 km
-      showsBackgroundLocationIndicator: false,
-      foregroundService: {
-        notificationTitle: "Allergy Tracker",
-        notificationBody: "Checking pollen levels for your area",
-      },
-    });
-  }
-}
-
-export async function stopBackgroundLocationUpdates(): Promise<void> {
-  const isRegistered = await TaskManager.isTaskRegisteredAsync(
-    BACKGROUND_LOCATION_TASK
-  );
-  if (isRegistered) {
-    await Location.stopLocationUpdatesAsync(BACKGROUND_LOCATION_TASK);
-  }
 }
 
 export async function storeLocation(location: SavedLocation): Promise<void> {

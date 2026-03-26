@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { SavedLocation } from "@/services/locationService";
 
@@ -61,13 +61,9 @@ export default function LocationHeader({ location, loading, onPressSearch }: Pro
       </View>
       <View className="flex-1 ml-2" accessible={false}>
         <Text className="text-xs text-blue-400 font-medium">Your location</Text>
-        {loading ? (
-          <ActivityIndicator size="small" color="#3b82f6" style={{ alignSelf: "flex-start" }} accessibilityLabel="Detecting location" />
-        ) : (
-          <Text className="text-base font-bold text-gray-800 dark:text-white" numberOfLines={1}>
-            {locationLabel}
-          </Text>
-        )}
+        <Text className="text-base font-bold text-gray-800 dark:text-white" numberOfLines={1}>
+          {loading ? "Detecting..." : locationLabel}
+        </Text>
       </View>
       <View accessible={false}>
         <ChevronIcon />
