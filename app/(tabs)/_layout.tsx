@@ -92,6 +92,7 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'Forecast',
+          headerShown: false,
           tabBarIcon: ({ color }) => <ForecastIcon color={color} />,
         }}
       />
