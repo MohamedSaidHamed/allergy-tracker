@@ -106,7 +106,6 @@ export default function PollenMap({ location, allergens }: Props) {
     var map = L.map('map', { zoomControl: false, attributionControl: true })
       .setView([${lat}, ${lng}], 12);
 
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     L.tileLayer('${tileUrl}', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
