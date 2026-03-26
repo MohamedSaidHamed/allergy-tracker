@@ -60,8 +60,13 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarInactiveTintColor: Colors[colorScheme].subtext,
         headerShown: useClientOnlyValue(false, true),
-        tabBarStyle: { paddingBottom: 4 },
+        tabBarStyle: {
+          paddingBottom: 4,
+          backgroundColor: Colors[colorScheme].card,
+          borderTopColor: colorScheme === 'dark' ? '#374151' : '#e5e7eb',
+        },
       }}
     >
       <Tabs.Screen

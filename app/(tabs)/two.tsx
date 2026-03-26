@@ -11,6 +11,7 @@ import { Calendar, DateData } from "react-native-calendars";
 import { useLocation } from "@/hooks/useLocation";
 import { usePollenData } from "@/hooks/usePollenData";
 import ForecastDayCard from "@/components/ForecastDayCard";
+import { useThemeColor } from "@/components/Themed";
 import { AllergenLevel, DayForecast } from "@/services/types";
 
 const LEVEL_ORDER: Record<AllergenLevel, number> = {
@@ -64,6 +65,10 @@ export default function ForecastScreen() {
   const { data: pollenData, loading, error, refresh } = usePollenData(location);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
+  const textColor = useThemeColor({}, "text");
+  const subtextColor = useThemeColor({}, "subtext");
+  const linkColor = useThemeColor({}, "link");
+  const cardColor = useThemeColor({}, "card");
 
   // Build calendar marked dates from forecast
   const markedDates: MarkedDates = useMemo(() => {
@@ -128,7 +133,7 @@ export default function ForecastScreen() {
         )}
 
         {/* Calendar */}
-        <View className="mx-5 mb-4 rounded-2xl overflow-hidden bg-white dark:bg-gray-800">
+        <View style={{ backgroundColor: cardColor }} className="mx-5 mb-4 rounded-2xl overflow-hidden">
           <Calendar
             markingType="multi-dot"
             markedDates={markedDates}
@@ -141,15 +146,15 @@ export default function ForecastScreen() {
             theme={{
               backgroundColor: "transparent",
               calendarBackground: "transparent",
-              textSectionTitleColor: "#9ca3af",
-              selectedDayBackgroundColor: "#3b82f6",
+              textSectionTitleColor: subtextColor,
+              selectedDayBackgroundColor: linkColor,
               selectedDayTextColor: "#ffffff",
-              todayTextColor: "#3b82f6",
-              dayTextColor: "#374151",
-              textDisabledColor: "#d1d5db",
-              arrowColor: "#3b82f6",
-              monthTextColor: "#111827",
-              indicatorColor: "#3b82f6",
+              todayTextColor: linkColor,
+              dayTextColor: textColor,
+              textDisabledColor: subtextColor + "60",
+              arrowColor: linkColor,
+              monthTextColor: textColor,
+              indicatorColor: linkColor,
             }}
           />
 
