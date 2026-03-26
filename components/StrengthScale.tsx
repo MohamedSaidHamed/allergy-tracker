@@ -32,6 +32,7 @@ export default function StrengthScale({ level, label }: Props) {
   const BAR_W = 280;
   const BAR_H = 14;
   const RADIUS = 7;
+  const VPAD = RADIUS + 3; // vertical padding so the circle isn't clipped at the top
 
   // Indicator position (center of active segment)
   const segmentW = BAR_W / LEVELS.length;
@@ -51,7 +52,7 @@ export default function StrengthScale({ level, label }: Props) {
         </Text>
       )}
 
-      <Svg width={BAR_W} height={BAR_H + 20} viewBox={`0 0 ${BAR_W} ${BAR_H + 20}`} accessible={false}>
+      <Svg width={BAR_W} height={VPAD + BAR_H + 20} viewBox={`0 0 ${BAR_W} ${VPAD + BAR_H + 20}`} accessible={false}>
         <Defs>
           <LinearGradient id="scaleGrad" x1="0" y1="0" x2="1" y2="0">
             {GRADIENT_COLORS.map((color, i) => (
@@ -67,7 +68,7 @@ export default function StrengthScale({ level, label }: Props) {
         {/* Background track */}
         <Rect
           x={0}
-          y={0}
+          y={VPAD}
           width={BAR_W}
           height={BAR_H}
           rx={RADIUS}
@@ -78,7 +79,7 @@ export default function StrengthScale({ level, label }: Props) {
         {/* Filled portion */}
         <Rect
           x={0}
-          y={0}
+          y={VPAD}
           width={indicatorX}
           height={BAR_H}
           rx={RADIUS}
@@ -90,7 +91,7 @@ export default function StrengthScale({ level, label }: Props) {
         {level !== "none" && (
           <Circle
             cx={indicatorX}
-            cy={BAR_H / 2}
+            cy={VPAD + BAR_H / 2}
             r={RADIUS + 2}
             fill="white"
             stroke={GRADIENT_COLORS[activeIndex]}
