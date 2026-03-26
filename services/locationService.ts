@@ -45,7 +45,7 @@ export async function requestLocationPermissions(): Promise<{
 
 export async function getCurrentLocation(): Promise<Location.LocationObject> {
   return Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.Low,
+    accuracy: Location.Accuracy.Balanced,
   });
 }
 
