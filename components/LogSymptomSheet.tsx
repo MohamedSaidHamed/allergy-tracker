@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   SYMPTOM_OPTIONS,
   MEDICATION_OPTIONS,
@@ -118,6 +119,7 @@ export default function LogSymptomSheet({
   );
   const [severity, setSeverity] = useState(existing?.severity ?? 1);
   const [notes, setNotes] = useState(existing?.notes ?? "");
+  const insets = useSafeAreaInsets();
 
   const toggle = (
     list: string[],
@@ -153,7 +155,7 @@ export default function LogSymptomSheet({
       >
         <View className="flex-1 bg-white dark:bg-gray-900">
           {/* Header */}
-          <View className="flex-row items-center justify-between px-5 pt-5 pb-3 border-b border-gray-100 dark:border-gray-800">
+          <View style={{ paddingTop: insets.top + 20 }} className="flex-row items-center justify-between px-5 pb-3 border-b border-gray-100 dark:border-gray-800">
             <TouchableOpacity
               onPress={onDismiss}
               accessibilityRole="button"
