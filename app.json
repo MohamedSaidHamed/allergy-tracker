@@ -57,7 +57,9 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allergy Tracker uses your location to show local pollen levels and send spike alerts."
+          "locationWhenInUsePermission": "Allergy Tracker uses your location to show local pollen levels.",
+          "isAndroidBackgroundLocationEnabled": false,
+          "isAndroidForegroundServiceEnabled": false
         }
       ],
       [
