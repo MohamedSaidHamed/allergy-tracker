@@ -6,7 +6,7 @@ import {
   RefreshControl,
   ActivityIndicator,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Calendar, DateData } from "react-native-calendars";
 import { useLocation } from "@/hooks/useLocation";
 import { usePollenData } from "@/hooks/usePollenData";
@@ -63,6 +63,7 @@ export default function ForecastScreen() {
   const { location } = useLocation();
   const { data: pollenData, loading, error, refresh } = usePollenData(location);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const insets = useSafeAreaInsets();
 
   // Build calendar marked dates from forecast
   const markedDates: MarkedDates = useMemo(() => {
@@ -99,10 +100,10 @@ export default function ForecastScreen() {
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={["bottom"]}>
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={["top", "bottom"]}>
       <ScrollView
         className="flex-1"
-        contentContainerStyle={{ paddingBottom: 40 }}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={refresh} tintColor="#3b82f6" />
